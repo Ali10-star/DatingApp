@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace API.Entities
 {
     public class AppUser
@@ -23,10 +18,10 @@ namespace API.Entities
         public string Country { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
-        // Methods
-        // public int GetAge()
-        // {
-        //     return DateOfBirth.CalculateAge();
-        // }
+        // Users that like this user
+        public ICollection<UserLike> LikedByUsers { get; set; }
+
+        // Users that this user likes
+        public ICollection<UserLike> LikedUsers { get; set; }
     }
 }
