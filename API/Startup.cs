@@ -1,6 +1,7 @@
 global using API.Extensions;
 using Microsoft.OpenApi.Models;
 using API.Middleware;
+using API.SignalR;
 
 namespace API
 {
@@ -24,6 +25,7 @@ namespace API
             // User-defined in API.Extensions
             services.AddIdentityServices(_config);
 
+            services.AddSignalR();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPIv5", Version = "v1" });
@@ -47,7 +49,7 @@ namespace API
 
             app.UseRouting();
 
-            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod());
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
             app.UseAuthentication();
 
@@ -56,6 +58,8 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
             });
         }
     }
